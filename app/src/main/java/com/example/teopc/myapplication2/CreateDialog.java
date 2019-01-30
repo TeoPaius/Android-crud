@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 
+import com.google.android.gms.ads.MobileAds;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -33,10 +35,13 @@ public class CreateDialog extends AppCompatDialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater layoutInflater = getActivity().getLayoutInflater();
         View v = layoutInflater.inflate(R.layout.create_layout_dialog, null);
+        MobileAds.initialize(this.getContext(), "ca-app-pub-4539424328833384~6987140059");
 
-        lengthText = v.findViewById(R.id.lengthText);
+
+
+        lengthText = v.findViewById(R.id.nameText);
         durationText = v.findViewById(R.id.durationText);
-        dateText = v.findViewById(R.id.dateText);
+        dateText = v.findViewById(R.id.priceText);
 
 
         Bundle args = getArguments();

@@ -12,16 +12,20 @@ import android.widget.Toast;
 
 import java.util.Vector;
 
+import model.Product;
 import model.Run;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
-    private Vector<Run> mDataset;
+    private Vector<Product> mDataset;
     public static Integer selectedIdx = -1;
+    public Integer mode = 0;
+
 
     public static class MyViewHolder extends RecyclerView.ViewHolder implements View
             .OnClickListener{
         // each data item is just a string in this case
         public LinearLayout lay;
+        public Integer myID = 0;
         public MyViewHolder(LinearLayout v) {
             super(v);
             v.setOnClickListener(this);
@@ -31,16 +35,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         @Override
         public void onClick(View v) {
             int itemPosition = getPosition();
-            Log.d("tg", Integer.toString(itemPosition));
             MyAdapter.selectedIdx = itemPosition;
-            Toast.makeText( v.getContext(), Integer.toString(itemPosition), Toast.LENGTH_LONG).show();
+            Log.d("tg", Integer.toString(this.myID));
         }
     }
 
 
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MyAdapter(Vector<Run> myDataset) {
+    public MyAdapter(Vector<Product> myDataset) {
         mDataset = myDataset;
     }
 
@@ -50,7 +53,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                                                      int viewType) {
         // create a new view
         LinearLayout v = (LinearLayout) LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.run_layout, parent, false);
+                .inflate(R.layout.product_layout, parent, false);
         MyViewHolder vh = new MyViewHolder(v);
 
 
@@ -62,14 +65,32 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
-        TextView lengthText = (TextView) holder.lay.findViewById(R.id.lengthText);
-        TextView timeText = (TextView) holder.lay.findViewById(R.id.timeText);
-        TextView dateText = (TextView) holder.lay.findViewById(R.id.dateText);
+        Product p = mDataset.elementAt(position);
+        TextView nameText = (TextView) holder.lay.findViewById(R.id.nameText);
+        TextView priceText = (TextView) holder.lay.findViewById(R.id.priceText);
+        TextView quantityText = (TextView) holder.lay.findViewById(R.id.quantityText);
+        TextView statusText = (TextView) holder.lay.findViewById(R.id.statusText);
+        TextView descriptionText = (TextView) holder.lay.findViewById(R.id.descriptionText);
 
-        Run r = mDataset.elementAt(position);
-        lengthText.setText(Float.toString(r.getLength()) + "km");
-        timeText.setText(Integer.toString(r.getDuration()) + "mins");
-        dateText.setText(r.getDate().toString());
+
+        if(mode == 0) {
+            statusText.setVisibility(View.GONE);
+            descriptionText.setVisibility(View.GONE);
+        }
+        else
+        {
+            statusText.setVisibility(View.VISIBLE);
+            descriptionText.setVisibility(View.VISIBLE);
+        }
+
+        nameText.setText("name: " + p.name);
+        priceText.setText(p.price.toString() + " lei");
+        quantityText.setText(p.quantity.toString());
+        descriptionText.setText(p.description);
+        statusText.setText("status: " + p.status);
+        holder.myID = p.id;
+
+
     }
 
     // Return the size of your dataset (invoked by the layout manager)

@@ -15,6 +15,16 @@ public class Run extends RealmObject implements Serializable  {
     @PrimaryKey
     Integer hash;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    String id;
+
     public Run() {
         length = -1f;
         date = null;
